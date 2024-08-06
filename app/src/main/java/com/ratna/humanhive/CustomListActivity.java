@@ -1,6 +1,8 @@
 package com.ratna.humanhive;
 
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,14 +22,22 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.ref.ReferenceQueue;
+import java.util.ArrayList;
 
 public class CustomListActivity extends AppCompatActivity {
+    ListView listView;
+    ArrayList<Human> humanList = new ArrayList<>();
+    ArrayAdapter<Human> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_custom_list);
+        listView = findViewById(R.id.humanList);
+
+        adapter = new ArrayAdapter<>(CustomListActivity.this, R.layout.item_human_list);
+        listView.setAdapter(adapter);
 
     }
 
