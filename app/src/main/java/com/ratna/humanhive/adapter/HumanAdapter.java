@@ -43,12 +43,12 @@ public class HumanAdapter extends ArrayAdapter<Human> {
 
         Human human = humanArrayList.get(position);
         Glide.with(activity).load(human.thumbnail).into(imageView);
-        String name = human.title + " " + human.firstName + " " + human.lastName;
-        name.setText(name);
+        String hname = human.title + " " + human.firstName + " " + human.lastName;
+        name.setText(hname);
         gender.setText(human.gender);
         age.setText(human.age);
         email.setText(human.email);
         phone.setText(human.phone);
-
+return view;
     }
 }
