@@ -1,6 +1,8 @@
 package com.ratna.humanhive;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -9,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -16,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.ratna.humanhive.adapter.HumanAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,7 +32,8 @@ import java.util.ArrayList;
 public class CustomListActivity extends AppCompatActivity {
     ListView listView;
     ArrayList<Human> humanList = new ArrayList<>();
-    ArrayAdapter<Human> adapter;
+    //ArrayAdapter<Human> adapter;
+   HumanAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +41,20 @@ public class CustomListActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_custom_list);
         listView = findViewById(R.id.humanList);
+        humanList = new ArrayList<Human>();
+        fetchData();
 
-        adapter = new ArrayAdapter<>(CustomListActivity.this, R.layout.item_human_list);
-        listView.setAdapter(adapter);
+        listView.setOnItemClickListener((adapterView, view, position, id) -> {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            Human human = humanList.get(position);
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            DetailFragment detailFragment = new DetailFragment();
+            fragmentTransaction.replace(R.id.detailFrame, detailFragment);
+            fragmentTransaction.commit();
+        });
+
+      //  adapter = new ArrayAdapter<>(CustomListActivity.this, R.layout.item_human_list);
+      //  listView.setAdapter(adapter);
 
     }
 
@@ -98,8 +115,40 @@ public class CustomListActivity extends AppCompatActivity {
                                 String thumbnail = pictureObj.getString("thumbnail");
 
                                 String nat = humanObj.getString("nat");
+                                Human human = new Human();
+
+                                human.setGender(gender);
+                                human.setTitle(title);
+                                human.setFirstName(first);
+                                human.setLastName(last);
+                                human.setStreetName(streetName);
+                                human.setStreetNumber(Integer.parseInt(number));
+                                human.setCity(city);
+                                human.setState(state);
+                                human.setCountry(country);
+                                human.setPostcode(postcode);
+                                human.setLatitude(latitude);
+                                human.setLongitude(longitude);
+                                human.setTimezoneOffset(offset);
+                                human.setTimezoneDescription(description);
+                                human.setEmail(email);
+                                human.setPhone(phone);
+                                human.setCell(cell);
+
+                                human.setUsername(username);
+                                human.setPassword(password);
+
+                                human.setPictureLarge(large);
+                                human.setPictureMedium(medium);
+                                human.setPictureThumbnail(thumbnail);
+                                human.setNationality(nat);
+
+                                humanList.add(human);
 
                             }
+                            adapter = new HumanAdapter(CustomListActivity.this, humanList);
+                            listView.setAdapter(adapter);
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

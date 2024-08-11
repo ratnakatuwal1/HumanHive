@@ -10,9 +10,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 public class DetailFragment extends Fragment {
-private ImageView detailThumbnail;
-private TextView detailName, detailGender, detailAge, detailEmail, detailPhone, detailCell, detailLocation, detailCoordinates, detailTimezone;
+ImageView detailThumbnail;
+TextView detailName, detailGender, detailAge, detailEmail, detailPhone, detailCell, detailLocation, detailCoordinates, detailTimezone;
+Human human;
+
+DetailFragment(Human human) {
+    this.human = human;
+}
 
     public DetailFragment() {
         // Required empty public constructor
@@ -32,6 +39,17 @@ private TextView detailName, detailGender, detailAge, detailEmail, detailPhone, 
         detailLocation = view.findViewById(R.id.detail_location);
         detailCoordinates = view.findViewById(R.id.detail_coordinates);
         detailTimezone = view.findViewById(R.id.detail_timezone);
+
+        Glide.with(getContext()).load(human.getPictureLarge()).into(detailThumbnail);
+        detailName.setText(human.getTitle() + " " + human.getFirstName() + " " + human.getLastName());
+        detailGender.setText(human.getGender());
+        detailAge.setText(String.valueOf(human.getDobAge()));
+        detailEmail.setText(human.getEmail());
+        detailPhone.setText(human.getPhone());
+        detailCell.setText(human.getCell());
+        detailLocation.setText(human.getStreetName() + " " + human.getCity() + " " + human.getState() + " " + human.getCountry() + " " + human.getPostcode());
+        detailTimezone.setText(human.getTimezoneOffset() + " " + human.getTimezoneDescription());
+        detailCoordinates.setText(human.getLatitude() + " " + human.getLongitude());
         return view;
     }
 }

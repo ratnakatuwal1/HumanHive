@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
 import com.ratna.humanhive.Human;
 import com.ratna.humanhive.R;
 
@@ -18,37 +19,58 @@ import java.util.ArrayList;
 
 public class HumanAdapter extends ArrayAdapter<Human> {
 
-    Activity activity;
-    ArrayList<Human> humanArrayList;
+    Activity context;
+    ArrayList<Human> humanList;
 
     public HumanAdapter(@NonNull Activity context, ArrayList<Human> humanArrayList) {
         super(context, R.layout.item_human_list);
-        this.activity = context;
-        this.humanArrayList = humanArrayList;
+        this.context = context;
+        this.humanList = humanList;
+    }
+
+    @Override
+    public int getCount(){
+        return humanList.size();
     }
     
     @NonNull
     @Override
-    public View getView (int position, @NonNull View convertView, @NonNull ViewGroup parent){
-        LayoutInflater inflater = activity.getLayoutInflater();
-        View view = LayoutInflater.inflate(R.layout.item_human_list, null, true);
+    public View getView (int position, @NonNull View convertView, @NonNull ViewGroup parent) {
+        Human human = humanList.get(position);
 
-        ImageView imageView = view.findViewById(R.id.thumbnail);
+        LayoutInflater inflater = context.getLayoutInflater();
+        View view = inflater.inflate(R.layout.item_human_list, null, true);
+
+        ImageView image = view.findViewById(R.id.thumbnail);
+
+        Glide.with(context).load(human.getPictureThumbnail()).into(image);
+
+
         TextView name = view.findViewById(R.id.name);
-        TextView gender = view.findViewById(R.id.gender);
+
+        String nameText = human.getTitle() + " " + human.getFirstName() + " " + human.getLastName();
+        name.setText(nameText);
+
         TextView age = view.findViewById(R.id.age);
+
+        age.setText(String.valueOf(human.getDobAge()));
+
+
+        TextView gender = view.findViewById(R.id.gender);
+
+        gender.setText(human.getGender());
+
         TextView email = view.findViewById(R.id.email);
+
+        email.setText(human.getEmail());
+
         TextView phone = view.findViewById(R.id.phone);
+
+        phone.setText(human.getPhone());
+
         TextView contact = view.findViewById(R.id.contact_number);
 
-        Human human = humanArrayList.get(position);
-        Glide.with(activity).load(human.thumbnail).into(imageView);
-        String hname = human.title + " " + human.firstName + " " + human.lastName;
-        name.setText(hname);
-        gender.setText(human.gender);
-        age.setText(human.age);
-        email.setText(human.email);
-        phone.setText(human.phone);
-return view;
+        contact.setText(human.getCell());
+        return view;
     }
 }

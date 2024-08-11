@@ -27,6 +27,7 @@ public class BasicListViewActivity extends AppCompatActivity {
     private ListView listView;
     ArrayList<String> data;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
