@@ -35,6 +35,7 @@ public class BasicListViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_basic_list_view);
 
         listView = findViewById(R.id.basicList);
+        data = new ArrayList<String>();
 //        data = new ArrayList<String>();
 //        data.add("Ramesh");
 //        data.add("Suresh");
@@ -54,38 +55,32 @@ public class BasicListViewActivity extends AppCompatActivity {
         String url = "https://randomuser.me/api/?results=30";
         RequestQueue requestQueue = Volley.newRequestQueue(BasicListViewActivity.this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            JSONArray jsonArray = jsonObject.getJSONArray("results");
+                response -> {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        JSONArray jsonArray = jsonObject.getJSONArray("results");
 
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject result = jsonArray.getJSONObject(i);
-                                String gender = result.getString("gender");
-                                JSONObject nameObj = result.getJSONObject("name");
-                                String title = nameObj.getString("title");
-                                String firstName = nameObj.getString("first");
-                                String lastName = nameObj.getString("last");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject object = jsonArray.getJSONObject(i);
+                            String gender = object.getString("gender");
+                            JSONObject nameObj = object.getJSONObject("name");
+                            String title = nameObj.getString("title");
+                            String firstName = nameObj.getString("first");
+                            String lastName = nameObj.getString("last");
 
-                                String fullName = title + " " + firstName + " " + lastName;
-                                data.add(fullName);
+                            String fullName = title + " " + firstName + " " + lastName;
+                            data.add(fullName);
 
 
-                            }
-                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(BasicListViewActivity.this, android.R.layout.simple_list_item_1, data);
-                            listView.setAdapter(adapter);
-                        } catch (JSONException e) {
-                            throw new RuntimeException(e);
                         }
+                        ArrayAdapter<String> adapter = new ArrayAdapter<>(BasicListViewActivity.this, R.layout.item_basic_list, data);
+                        listView.setAdapter(adapter);
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
+                error -> {
 
-                    }
                 });
         requestQueue.add(stringRequest);
     }
