@@ -22,7 +22,7 @@ public class HumanAdapter extends ArrayAdapter<Human> {
     Activity context;
     ArrayList<Human> humanList;
 
-    public HumanAdapter(@NonNull Activity context, ArrayList<Human> humanArrayList) {
+    public HumanAdapter(@NonNull Activity context, ArrayList<Human> humanList) {
         super(context, R.layout.item_human_list);
         this.context = context;
         this.humanList = humanList;
@@ -36,10 +36,10 @@ public class HumanAdapter extends ArrayAdapter<Human> {
     @NonNull
     @Override
     public View getView (int position, @NonNull View convertView, @NonNull ViewGroup parent) {
-        Human human = humanList.get(position);
 
         LayoutInflater inflater = context.getLayoutInflater();
         View view = inflater.inflate(R.layout.item_human_list, null, true);
+        Human human = humanList.get(position);
 
         ImageView image = view.findViewById(R.id.thumbnail);
 

@@ -24,7 +24,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class BasicListViewActivity extends AppCompatActivity {
-    private ListView listView;
+    ListView listView;
     ArrayList<String> data;
 
 
