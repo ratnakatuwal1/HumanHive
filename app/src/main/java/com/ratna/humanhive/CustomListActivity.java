@@ -48,6 +48,8 @@ public class CustomListActivity extends AppCompatActivity {
         listView.setOnItemClickListener((adapterView, view, position, id) -> {
             FragmentManager fragmentManager = getSupportFragmentManager();
             Human human = humanList.get(position);
+
+            findViewById(R.id.detailFrame).setVisibility(View.VISIBLE);
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             DetailFragment detailFragment = new DetailFragment(human);
             fragmentTransaction.replace(R.id.detailFrame, detailFragment);
@@ -133,6 +135,8 @@ public class CustomListActivity extends AppCompatActivity {
                             human.setEmail(email);
                             human.setPhone(phone);
                             human.setCell(cell);
+                            human.setDobDate(date);
+                            human.setDobAge(age);
 
                             human.setUsername(username);
                             human.setPassword(password);
